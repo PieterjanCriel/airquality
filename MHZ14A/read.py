@@ -1,12 +1,14 @@
 #!/usr/bin/python
 
+# Start deamon sudo pigpiod
+
 import sys
 import time
 import difflib
 import pigpio
 
-TX=16
-RX=18
+TX=32 # GPIO 12
+RX=33 # GPIO 13
 
 try:
     pi = pigpio.pi()
