@@ -17,7 +17,7 @@ class g3sensor():
     
     def conn_serial_port(self, device):
         if debug: print device
-        self.serial = serial.Serial(device, baudrate=9600)
+        self.serial = serial.Serial(device, baudrate=9600, parity=serial.parity, stopbits=serial.STOPBITS_ONE)
         if debug: print "conn ok"
 
     def check_keyword(self):
@@ -43,51 +43,27 @@ class g3sensor():
                         return True
 		    
     def vertify_data(self, data):
-        checksum = float(data_hex[30]*256 + data_hex[31])
+        checksum = int(data_hex[30], 16) * 256 + int(data_hex[31], 16)
         if debug: print data
         n = 2
         sum = int('42',16) + int('4d',16)
         for i in range(0, len(data)-4, n):
-            sum += int(data[i],16)
+            sum += int(data[i], 16)
         if debug: print sum
-            if debug: print checksum
+        if debug: print checksum
         if sum == checksum:
             print "data correct"
+        else:
+            print "data incorrect"
 	
     def read_data(self):
         data = self.serial.read(30)
         data_hex=data.encode('hex')
         if debug: self.vertify_data(data_hex)
-
-        data1 = float(data_hex[4]*256 + data_hex[5])
-        data2 = float(data_hex[6]*256 + data_hex[7])
-        data3 = float(data_hex[8]*256 + data_hex[9])
-        data4 = float(data_hex[10]*256 + data_hex[11])
-        data5 = float(data_hex[12]*256 + data_hex[13])
-        data6 = float(data_hex[14]*256 + data_hex[15])
-        data7 = float(data_hex[16]*256 + data_hex[17])
-        data8 = float(data_hex[18]*256 + data_hex[19])
-        data9 = float(data_hex[20]*256 + data_hex[21])
-        data10 = float(data_hex[22]*256 + data_hex[23])
-        data11 = float(data_hex[24]*256 + data_hex[25])
-        data12 = float(data_hex[26]*256 + data_hex[27])
-        data13 = float(data_hex[28]*256 + data_hex[29])
-
-        if debug: print "data1: "+str(data1)
-        if debug: print "data2: "+str(data2)
-        if debug: print "data3: "+str(data3)
-        if debug: print "data4: "+str(data4)
-        if debug: print "data5: "+str(data5)
-        if debug: print "data6: "+str(data6)
-        if debug: print "data7: "+str(data7)
-        if debug: print "data8: "+str(data8)
-        if debug: print "data9: "+str(data9)
-        if debug: print "data10: "+str(data10)
-        if debug: print "data11: "+str(data11)
-        if debug: print "data12: "+str(data12)
-        if debug: print "data13: "+str(data13)
-
-        data = [data1, data2, data3, data4, data5, data6, data7, data8, data9, data10, data11, data12]
+        data = []
+        for i in range(0, len(data_hex), 2):
+            data[i] = int(data_hex[i], 16) * 256 + int(data_hex[i+1], 16)
+            if debug: print "data"+i+":"+str(data[i])
 
     	self.serial.close()
         return data
@@ -105,7 +81,7 @@ if __name__ == '__main__':
     while True:
         pmdata=0
         try:
-            pmdata=air.read("/dev/ttyAMA0")
+            pmdata=air.read("/dev/ttyS0")
         except: 
             next
         if pmdata != 0:
