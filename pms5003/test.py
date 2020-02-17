@@ -2,8 +2,8 @@ import serial
 from time import sleep
 
 # Specify serial port address
-ser_port = "ttyS0"
-ser = serial.Serial(ser_port, baudrate=9600, stopbits=1, parity="N",  timeout=2)
+ser_port = "/dev/ttyS0"
+ser = serial.Serial(ser_port, baudrate=9600, timeout=3)
 
 # Specify delay between data reads in seconds
 data_delay = 1
