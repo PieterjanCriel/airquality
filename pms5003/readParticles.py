@@ -3,7 +3,6 @@ import serial
 import time
 import sys
 from struct import *
-
 debug=1
 # work for pms3003
 # data structure: https://github.com/avaldebe/AQmon/blob/master/Documents/PMS3003_LOGOELE.pdf
@@ -18,7 +17,7 @@ class g3sensor():
     
     def conn_serial_port(self, device):
         if debug: print device
-        self.serial = serial.Serial(device, baudrate=9600, timeout=3)
+        self.serial = serial.Serial(device, baudrate=9600)
         if debug: print "conn ok"
 
     def check_keyword(self):
@@ -35,13 +34,13 @@ class g3sensor():
     	        if token2_hex == '4d':
     	            if debug: print "get 4d"
                     return True
-		elif token2_hex == '00': # fixme
-		    if debug: print "get 00"
-		    token3 = self.serial.read()
-		    token3_hex=token3.encode('hex')
-		    if token3_hex == '4d':
-			if debug: print "get 4d"
-			return True
+                elif token2_hex == '00': # fixme
+                    if debug: print "get 00"
+                    token3 = self.serial.read()
+                    token3_hex=token3.encode('hex')
+                    if token3_hex == '4d':
+                        if debug: print "get 4d"
+                        return True
 		    
     def vertify_data(self, data):
 	if debug: print data
@@ -89,7 +88,7 @@ if __name__ == '__main__':
     while True:
         pmdata=0
         try:
-            pmdata=air.read("/dev/ttyS0")
+            pmdata=air.read("/dev/ttyAMA0")
         except: 
             next
         if pmdata != 0:
