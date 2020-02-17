@@ -3,6 +3,7 @@ import serial
 import time
 import sys
 from struct import *
+
 debug=0
 # work for pms3003
 # data structure: https://github.com/avaldebe/AQmon/blob/master/Documents/PMS3003_LOGOELE.pdf
