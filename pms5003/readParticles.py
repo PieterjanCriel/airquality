@@ -4,7 +4,7 @@ import time
 import sys
 from struct import *
 
-debug=0
+debug=1
 # work for pms3003
 # data structure: https://github.com/avaldebe/AQmon/blob/master/Documents/PMS3003_LOGOELE.pdf
 # fix me: the format is different between /dev/ttyUSBX(USB to Serial) and /dev/ttyAMA0(GPIO RX)
@@ -18,7 +18,7 @@ class g3sensor():
     
     def conn_serial_port(self, device):
         if debug: print device
-        self.serial = serial.Serial(device, baudrate=9600)
+        self.serial = serial.Serial(device, baudrate=9600, timeout=3)
         if debug: print "conn ok"
 
     def check_keyword(self):
