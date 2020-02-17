@@ -25,7 +25,7 @@ class MHZ14A():
 
 
 def main():
-    co2 = MHZ14A("/dev/ttyAMA1")
+    co2 = MHZ14A("/dev/ttyS0")
     try:
         print co2.get()
     except:
