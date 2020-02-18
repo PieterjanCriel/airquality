@@ -8,8 +8,8 @@ import  os
 from datadog import initialize, api
 
 apiKey = os.environ['DD_API_KEY']
-appKey = os.environ['DD_APP_KEY']
 location = sys.argv[1]
+sleep_interval = sys.argv[2]
 
 options = {
     'api_key': apiKey
@@ -26,22 +26,25 @@ def makeMeasurement():
     particleData = particleSensor.read()
     temperatureData = temperatureSentor.read()
     
-    d = {"timestamp": ts}
-    d.update(particleData)
-    d.update(temperatureData)
+    data = dict()
+    data.update(particleData)
+    data.update(temperatureData)
     
-    return d
+    return data
     
 
 def main():
-    print(apiKey)
-    print(appKey)
-    print(location)
     while True:
         data = makeMeasurement()
-        api.Metric.send(metric='showpad.meteo.temperature', points=data['temperature'], tags=["location:"+location])
-        print(str(data['temperature']))
-        time.sleep(5)
+        for metric_key, metric_value in data.items()
+
+        api.Metric.send(
+        	metric='showpad.meteo.{metric_key}'.format(metric_key=metric_key),
+        	points=metric_value,
+        	tags=["location:"+location]
+        	)
+
+        time.sleep(sleep_interval)
 
 if __name__ == "__main__":
     main()
