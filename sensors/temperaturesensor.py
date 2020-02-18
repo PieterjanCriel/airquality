@@ -12,7 +12,7 @@ class TemperatureSentor(object):
 
     def read(self):
         humidity, temperature = Adafruit_DHT.read_retry(DHT_SENSOR, DHT_PIN)
-        return {"humidity": humidity, "temperatur": temperature}
+        return {"humidity": humidity, "temperature": temperature}
 
 # humidity, temperature = Adafruit_DHT.read_retry(DHT_SENSOR, DHT_PIN)
 # if humidity is not None and temperature is not None:
