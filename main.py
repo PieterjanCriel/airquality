@@ -43,7 +43,7 @@ def main():
 	        	tags=["location:"+location]
 	        	)
 
-        time.sleep(sleep_interval)
+        time.sleep(int(sleep_interval))
 
 if __name__ == "__main__":
     main()
