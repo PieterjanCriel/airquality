@@ -36,13 +36,12 @@ def makeMeasurement():
 def main():
     while True:
         data = makeMeasurement()
-        for metric_key, metric_value in data.items()
-
-        api.Metric.send(
-        	metric='showpad.meteo.{metric_key}'.format(metric_key=metric_key),
-        	points=metric_value,
-        	tags=["location:"+location]
-        	)
+        for metric_key, metric_value in data.items():
+	        api.Metric.send(
+	        	metric='showpad.meteo.{metric_key}'.format(metric_key=metric_key),
+	        	points=metric_value,
+	        	tags=["location:"+location]
+	        	)
 
         time.sleep(sleep_interval)
 
